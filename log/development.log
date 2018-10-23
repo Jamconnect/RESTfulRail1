@@ -1,0 +1,245 @@
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  ↳ bin/rails:4
+  [1m[35m (187.5ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  ↳ bin/rails:4
+  [1m[35m (78.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  ↳ bin/rails:4
+  [1m[35m (15.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:4
+Migrating to CreateTodos (20181021193538)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ bin/rails:4
+  [1m[35m (23.5ms)[0m  [1m[35mCREATE TABLE "todos" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar, "created_by" varchar, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL)[0m
+  ↳ db/migrate/20181021193538_create_todos.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20181021193538"]]
+  ↳ bin/rails:4
+  [1m[35m (109.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ bin/rails:4
+Migrating to CreateItems (20181021193637)
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ bin/rails:4
+  [1m[35m (15.6ms)[0m  [1m[35mCREATE TABLE "items" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "done" boolean, "todo_id" integer, "created_at" datetime NOT NULL, "updated_at" datetime NOT NULL, CONSTRAINT "fk_rails_c01e6b449d"
+FOREIGN KEY ("todo_id")
+  REFERENCES "todos" ("id")
+)[0m
+  ↳ db/migrate/20181021193637_create_items.rb:3
+  [1m[35m (0.0ms)[0m  [1m[35mCREATE  INDEX "index_items_on_todo_id" ON "items" ("todo_id")[0m
+  ↳ db/migrate/20181021193637_create_items.rb:3
+  [1m[36mActiveRecord::SchemaMigration Create (0.0ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20181021193637"]]
+  ↳ bin/rails:4
+  [1m[35m (187.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::InternalMetadata Load (0.0ms)[0m  [1m[34mSELECT  "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  ↳ bin/rails:4
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ bin/rails:4
+  [1m[36mActiveRecord::InternalMetadata Create (0.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "development"], ["created_at", "2018-10-21 19:37:37.164121"], ["updated_at", "2018-10-21 19:37:37.164121"]]
+  ↳ bin/rails:4
+  [1m[35m (110.3ms)[0m  [1m[36mcommit transaction[0m
+  ↳ bin/rails:4
+  [1m[35m (0.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ bin/rails:4
+Started GET "/" for 127.0.0.1 at 2018-10-21 22:13:45 +0200
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  ↳ C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/activerecord-5.2.1/lib/active_record/log_subscriber.rb:98
+Processing by Rails::WelcomeController#index as HTML
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.2.1/lib/rails/templates/rails/welcome/index.html.erb (9.0ms)
+Completed 200 OK in 281ms (Views: 153.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-10-21 22:23:13 +0200
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (39.4ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+  ↳ app/controllers/concerns/response.rb:4
+Completed 200 OK in 118ms (Views: 0.4ms | ActiveRecord: 41.4ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-10-21 22:24:42 +0200
+Processing by TodosController#create as HTML
+  Parameters: {"title"=>"Amadeus_Mozart", "created_by"=>"1", "todo"=>{"title"=>"Amadeus_Mozart", "created_by"=>"1"}}
+Unpermitted parameter: :todo
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/todos_controller.rb:13
+  [1m[36mTodo Create (0.0ms)[0m  [1m[32mINSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["title", "Amadeus_Mozart"], ["created_by", "1"], ["created_at", "2018-10-21 20:24:42.860417"], ["updated_at", "2018-10-21 20:24:42.860417"]]
+  ↳ app/controllers/todos_controller.rb:13
+  [1m[35m (79.2ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/todos_controller.rb:13
+Completed 201 Created in 116ms (Views: 2.9ms | ActiveRecord: 79.2ms)
+
+
+Started PUT "/todos/1" for 127.0.0.1 at 2018-10-21 22:30:26 +0200
+Processing by TodosController#update as HTML
+  Parameters: {"title"=>"Beethoven", "id"=>"1", "todo"=>{"title"=>"Beethoven"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/todos_controller.rb:42
+Unpermitted parameters: :id, :todo
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/todos_controller.rb:24
+  [1m[36mTodo Update (15.6ms)[0m  [1m[33mUPDATE "todos" SET "title" = ?, "updated_at" = ? WHERE "todos"."id" = ?[0m  [["title", "Beethoven"], ["updated_at", "2018-10-21 20:30:26.524651"], ["id", 1]]
+  ↳ app/controllers/todos_controller.rb:24
+  [1m[35m (234.4ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/todos_controller.rb:24
+Completed 204 No Content in 375ms (ActiveRecord: 250.0ms)
+
+
+Started GET "/" for 127.0.0.1 at 2018-10-21 22:30:58 +0200
+Processing by Rails::WelcomeController#index as */*
+  Rendering C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.2.1/lib/rails/templates/rails/welcome/index.html.erb
+  Rendered C:/RailsInstaller/Ruby2.2.0/lib/ruby/gems/2.2.0/gems/railties-5.2.1/lib/rails/templates/rails/welcome/index.html.erb (0.0ms)
+Completed 200 OK in 4120ms (Views: 2007.6ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/todos/1/items" for 127.0.0.1 at 2018-10-21 22:33:11 +0200
+  
+AbstractController::ActionNotFound (The action 'index' could not be found for ItemsController):
+  
+actionpack (5.2.1) lib/abstract_controller/base.rb:129:in `process'
+actionpack (5.2.1) lib/action_controller/metal.rb:191:in `dispatch'
+actionpack (5.2.1) lib/action_controller/metal.rb:252:in `dispatch'
+actionpack (5.2.1) lib/action_dispatch/routing/route_set.rb:52:in `dispatch'
+actionpack (5.2.1) lib/action_dispatch/routing/route_set.rb:34:in `serve'
+actionpack (5.2.1) lib/action_dispatch/journey/router.rb:52:in `block in serve'
+actionpack (5.2.1) lib/action_dispatch/journey/router.rb:35:in `each'
+actionpack (5.2.1) lib/action_dispatch/journey/router.rb:35:in `serve'
+actionpack (5.2.1) lib/action_dispatch/routing/route_set.rb:840:in `call'
+rack (2.0.5) lib/rack/etag.rb:25:in `call'
+rack (2.0.5) lib/rack/conditional_get.rb:25:in `call'
+rack (2.0.5) lib/rack/head.rb:12:in `call'
+activerecord (5.2.1) lib/active_record/migration.rb:559:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/callbacks.rb:28:in `block in call'
+activesupport (5.2.1) lib/active_support/callbacks.rb:98:in `run_callbacks'
+actionpack (5.2.1) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/debug_exceptions.rb:61:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/show_exceptions.rb:33:in `call'
+railties (5.2.1) lib/rails/rack/logger.rb:38:in `call_app'
+railties (5.2.1) lib/rails/rack/logger.rb:26:in `block in call'
+activesupport (5.2.1) lib/active_support/tagged_logging.rb:71:in `block in tagged'
+activesupport (5.2.1) lib/active_support/tagged_logging.rb:28:in `tagged'
+activesupport (5.2.1) lib/active_support/tagged_logging.rb:71:in `tagged'
+railties (5.2.1) lib/rails/rack/logger.rb:26:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/remote_ip.rb:81:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/request_id.rb:27:in `call'
+rack (2.0.5) lib/rack/runtime.rb:22:in `call'
+activesupport (5.2.1) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/executor.rb:14:in `call'
+actionpack (5.2.1) lib/action_dispatch/middleware/static.rb:127:in `call'
+rack (2.0.5) lib/rack/sendfile.rb:111:in `call'
+railties (5.2.1) lib/rails/engine.rb:524:in `call'
+puma (3.12.0) lib/puma/configuration.rb:225:in `call'
+puma (3.12.0) lib/puma/server.rb:658:in `handle_request'
+puma (3.12.0) lib/puma/server.rb:472:in `process_client'
+puma (3.12.0) lib/puma/server.rb:332:in `block in run'
+puma (3.12.0) lib/puma/thread_pool.rb:133:in `call'
+puma (3.12.0) lib/puma/thread_pool.rb:133:in `block in spawn_thread'
+Started GET "/todos" for 127.0.0.1 at 2018-10-21 22:34:08 +0200
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+  ↳ app/controllers/concerns/response.rb:4
+Completed 200 OK in 16ms (Views: 4.8ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/todos/2/items" for 127.0.0.1 at 2018-10-21 22:39:56 +0200
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"2"}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+Completed 404 Not Found in 16ms (Views: 0.9ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/todos/1/items" for 127.0.0.1 at 2018-10-21 22:40:10 +0200
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"1"}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+  [1m[36mItem Load (0.0ms)[0m  [1m[34mSELECT "items".* FROM "items" WHERE "items"."todo_id" = ?[0m  [["todo_id", 1]]
+  ↳ app/controllers/concerns/response.rb:4
+Completed 200 OK in 47ms (Views: 14.3ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/todos/2/items" for 127.0.0.1 at 2018-10-21 22:41:04 +0200
+Processing by ItemsController#create as HTML
+  Parameters: {"name"=>"Listen to 5th Symphony", "done"=>"false", "todo_id"=>"2", "item"=>{"name"=>"Listen to 5th Symphony", "done"=>"false"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+Completed 404 Not Found in 16ms (Views: 0.6ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/todos/1/items" for 127.0.0.1 at 2018-10-21 22:43:21 +0200
+Processing by ItemsController#create as HTML
+  Parameters: {"name"=>"Listen to Music", "done"=>"false", "todo_id"=>"1", "item"=>{"name"=>"Listen to Music", "done"=>"false"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+Unpermitted parameters: :todo_id, :item
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/items_controller.rb:18
+  [1m[36mItem Create (0.0ms)[0m  [1m[32mINSERT INTO "items" ("name", "done", "todo_id", "created_at", "updated_at") VALUES (?, ?, ?, ?, ?)[0m  [["name", "Listen to Music"], ["done", 0], ["todo_id", 1], ["created_at", "2018-10-21 20:43:21.579826"], ["updated_at", "2018-10-21 20:43:21.579826"]]
+  ↳ app/controllers/items_controller.rb:18
+  [1m[35m (140.7ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/items_controller.rb:18
+Completed 201 Created in 188ms (Views: 2.8ms | ActiveRecord: 140.7ms)
+
+
+Started GET "/todos/2/items" for 127.0.0.1 at 2018-10-21 22:48:06 +0200
+Processing by ItemsController#index as */*
+  Parameters: {"todo_id"=>"2"}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+Completed 404 Not Found in 0ms (Views: 0.7ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/todos/2/items/1" for 127.0.0.1 at 2018-10-21 22:49:02 +0200
+Processing by ItemsController#update as HTML
+  Parameters: {"done"=>"true", "todo_id"=>"2", "id"=>"1", "item"=>{"done"=>"true"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 2], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+Completed 404 Not Found in 1ms (Views: 0.6ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/todos/1/items/1" for 127.0.0.1 at 2018-10-21 22:49:15 +0200
+Processing by ItemsController#update as HTML
+  Parameters: {"done"=>"true", "todo_id"=>"1", "id"=>"1", "item"=>{"done"=>"true"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:41
+  [1m[36mItem Load (0.0ms)[0m  [1m[34mSELECT  "items".* FROM "items" WHERE "items"."todo_id" = ? AND "items"."id" = ? LIMIT ?[0m  [["todo_id", 1], ["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/items_controller.rb:45
+Unpermitted parameters: :todo_id, :id, :item
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/items_controller.rb:24
+  [1m[36mItem Update (0.0ms)[0m  [1m[33mUPDATE "items" SET "done" = ?, "updated_at" = ? WHERE "items"."id" = ?[0m  [["done", 1], ["updated_at", "2018-10-21 20:49:15.605251"], ["id", 1]]
+  ↳ app/controllers/items_controller.rb:24
+  [1m[35m (125.0ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/items_controller.rb:24
+Completed 204 No Content in 156ms (ActiveRecord: 125.0ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-10-21 22:53:55 +0200
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+  ↳ app/controllers/concerns/response.rb:4
+Completed 200 OK in 16ms (Views: 7.0ms | ActiveRecord: 0.0ms)
+
+
+Started PUT "/todos/1" for 127.0.0.1 at 2018-10-21 22:55:17 +0200
+Processing by TodosController#update as HTML
+  Parameters: {"title"=>"Verdi", "id"=>"1", "todo"=>{"title"=>"Verdi"}}
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?[0m  [["id", 1], ["LIMIT", 1]]
+  ↳ app/controllers/todos_controller.rb:42
+Unpermitted parameters: :id, :todo
+  [1m[35m (0.0ms)[0m  [1m[36mbegin transaction[0m
+  ↳ app/controllers/todos_controller.rb:24
+  [1m[36mTodo Update (0.0ms)[0m  [1m[33mUPDATE "todos" SET "title" = ?, "updated_at" = ? WHERE "todos"."id" = ?[0m  [["title", "Verdi"], ["updated_at", "2018-10-21 20:55:17.892678"], ["id", 1]]
+  ↳ app/controllers/todos_controller.rb:24
+  [1m[35m (121.5ms)[0m  [1m[36mcommit transaction[0m
+  ↳ app/controllers/todos_controller.rb:24
+Completed 204 No Content in 137ms (ActiveRecord: 121.5ms)
+
+
+Started GET "/todos" for 127.0.0.1 at 2018-10-21 22:55:42 +0200
+Processing by TodosController#index as */*
+  [1m[36mTodo Load (0.0ms)[0m  [1m[34mSELECT "todos".* FROM "todos"[0m
+  ↳ app/controllers/concerns/response.rb:4
+Completed 200 OK in 0ms (Views: 6.5ms | ActiveRecord: 0.0ms)
+
+

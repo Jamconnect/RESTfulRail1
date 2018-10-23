@@ -1,0 +1,305 @@
+Author: John McDougall       Name git: RESTfulRail1
+______                       ________
+
+Subject: Build a RESTful JSON API With Rail 1
+_______
+
+1. Ruby and Rails
+
+Prerequisite: ruby ver >= 2.2.2 and rails ver 5
+
+DONE.  ruby 2.2.6 and rails 5.0.6
+
+API
+___
+Endpoint		Functionality
+--------		-------------
+POST /signup		Signup
+POST /auth/login	Login
+GET /auth/logout	Logout
+GET /todos		List all todos
+POST /todos		Create a new todo
+GET /todos/:id		Get a todo
+PUT /todos/:id		Update a todo
+DELETE /todos/:id	Delete a todo and its items
+GET /todos/:id/items	Get a todo item
+PUT /todos/:id/items	Update a todo item
+DELETE /todos/:id/items	Delete a todo item
+
+Part One
+________
+
+Project setup
+Todos API
+TodoItems API
+
+1. new todos-api
+
+$ rails new todos-api --api -T
+
+DONE.
+
+Dependencies
+____________
+
+rspec-rails - Testing framework.
+factory_bot_rails - A fixtures replacement with a more straightforward syntax. 
+shoulda_matchers - Provides RSpec with additional matchers.
+database_cleaner - You guessed it! It literally cleans our test database to ensure a clean state in each test suite.
+faker - A library for generating fake data. We'll use this to generate test data.
+
+1. rspec-rails
+
+First Sublime open folder todos-api.
+DONE.
+
+Edit "C:\Sites\todos-api\Gemfile"
+	# Gemfile
+	group :development, :test do
+	gem 'rspec-rails', '~> 3.5'
+	end
+DONE.
+
+Add factory_bot_rails, shoulda_matchers, faker and database_cleaner to the :test group.
+
+	group :test do
+  		gem 'factory_bot_rails', '~> 4.0'
+  		gem 'shoulda-matchers', '~> 3.1'
+ 		gem 'faker'
+  		gem 'database_cleaner'
+	end
+DONE.
+
+$ rails generate rspec:install
+
+DONE.
+
+BUG: https://github.com/rspec/rspec-rails/issues/1577
+
+C:\Sites\todos-api>set temp
+TEMP=C:\Users\JAMCON~1\AppData\Local\Temp
+
+C:\Sites\todos-api>set TEMP=C:\Users\Jamconnect\AppData\Local\Temp
+
+C:\Sites\todos-api>set temp
+TEMP=C:\Users\Jamconnect\AppData\Local\Temp
+
+
+C:\Sites\todos-api>set TMP=C:\Users\Jamconnect\AppData\Local\Temp
+
+C:\Sites\todos-api>set TMP
+TMP=C:\Users\Jamconnect\AppData\Local\Temp
+
+FIXED.
+
+C:\Sites\todos-api>rails generate rspec:install
+   identical  .rspec
+       exist  spec
+      create  spec/spec_helper.rb
+      create  spec/rails_helper.rb
+
+cd spec
+mdir factories
+
+DONE.
+
+Configuration
+-------------
+
+Edit spec/rails_helper.rb
+
+DONE.
+
+Model
+-----
+
+	rails g model Todo title:string created_by:string
+
+DONE.
+
+And Item:
+
+$ rails g model Item name:string done:boolean todo:references
+
+DONE.
+
+Migrations
+----------
+
+$ rails db:migrate
+
+	== 20181018130640 CreateTodos: migrating 	======================================
+	-- create_table(:todos)
+   	-> 0.0096s
+	== 20181018130640 CreateTodos: migrated (0.0125s) 	=============================
+
+	== 20181018131152 CreateItems: migrating 	======================================
+	-- create_table(:items)
+   	-> 0.0082s
+	== 20181018131152 CreateItems: migrated (0.0102s) 	=============================
+
+DONE.
+
+Spec running:
+
+	$bundle exec rspec
+
+DONE.
+
+App/Models
+----------
+
+DONE.
+
+Controllers
+-----------
+
+C:\Sites\todos-api>rails g controller Todos
+      create  app/controllers/todos_controller.rb
+      invoke  rspec
+      create    spec/controllers/todos_controller_spec.rb
+
+C:\Sites\todos-api>rails g controller Items
+      create  app/controllers/items_controller.rb
+      invoke  rspec
+      create    spec/controllers/items_controller_spec.rb
+
+DONE.
+
+C:\Sites\todos-api\spec\requests>touch {todos_spec.rb,items_spec.rb}
+
+C:\Sites\todos-api\spec\requests>cd..
+
+C:\Sites\todos-api\spec>cd factories
+
+C:\Sites\todos-api\spec\factories>touch {todos.rb,items.rb}
+
+DONE.
+
+C:\Sites\todos-api\spec>mkdir support
+
+C:\Sites\todos-api\spec>cd support
+
+C:\Sites\todos-api\spec\support>mkdir request
+
+C:\Sites\todos-api\spec\support>cd request
+
+C:\Sites\todos-api\spec\support\request>cd..
+
+C:\Sites\todos-api\spec\support>rd request
+
+C:\Sites\todos-api\spec\support>touch request_spec_helper.rb
+
+C:\Sites\todos-api\spec\support>bundle exec rspec
+No examples found.
+
+
+Finished in 0.002 seconds (files took 0.24286 seconds to load)
+0 examples, 0 failures
+
+Routes
+------
+$ rails routes
+
+DONE.
+
+C:\Sites\todos-api>rails routes
+    Prefix Verb   URI Pattern                         Controller#Action
+todo_items GET    /todos/:todo_id/items(.:format)     items#index
+           POST   /todos/:todo_id/items(.:format)     items#create
+ todo_item GET    /todos/:todo_id/items/:id(.:format) items#show
+           PATCH  /todos/:todo_id/items/:id(.:format) items#update
+           PUT    /todos/:todo_id/items/:id(.:format) items#update
+           DELETE /todos/:todo_id/items/:id(.:format) items#destroy
+     todos GET    /todos(.:format)                    todos#index
+           POST   /todos(.:format)                    todos#create
+      todo GET    /todos/:id(.:format)                todos#show
+           PATCH  /todos/:id(.:format)                todos#update
+           PUT    /todos/:id(.:format)                todos#update
+           DELETE /todos/:id(.:format)                todos#destroy
+
+httpie
+------
+
+https://www.hanselman.com/blog/InstallingHTTPIEHTTPForHumansOnWindowsGreatForASPNETWebAPIAndRESTfulJSONServices.aspx
+
+C:\WINDOWS\system32>http :3000/todos
+HTTP/1.1 200 OK
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/"4f53cda18c2baa0c0354bb5f9a3ecbe5"
+Transfer-Encoding: chunked
+X-Request-Id: 8bf36f93-501b-46dc-924a-a12061e624be
+X-Runtime: 0.543994
+
+[]
+
+
+C:\WINDOWS\system32>http POST :3000/todos title=Mozart created_by=1
+HTTP/1.1 201 Created
+Cache-Control: max-age=0, private, must-revalidate
+Content-Type: application/json; charset=utf-8
+ETag: W/"7d10d5e8b41e7a3e5941661f4125b2ab"
+Transfer-Encoding: chunked
+X-Request-Id: cd3251be-8bf8-4ae6-a169-a680ade9f1f4
+X-Runtime: 0.359842
+
+{
+    "created_at": "2018-10-18T14:46:38.465Z",
+    "created_by": "1",
+    "id": 1,
+    "title": "Mozart",
+    "updated_at": "2018-10-18T14:46:38.465Z"
+}
+
+DONE.
+
+Rails 3000:
+-----------
+Started GET "/todos" for 127.0.0.1 at 2018-10-18 16:46:08 +0200
+Processing by TodosController#index as */*
+  Todo Load (25.0ms)  SELECT "todos".* FROM "todos"
+Completed 200 OK in 172ms (Views: 11.6ms | ActiveRecord: 27.0ms)
+
+
+Started POST "/todos" for 127.0.0.1 at 2018-10-18 16:46:38 +0200
+Processing by TodosController#create as HTML
+  Parameters: {"title"=>"Mozart", "created_by"=>"1", "todo"=>{"title"=>"Mozart", "created_by"=>"1"}}
+Unpermitted parameter: todo
+   (0.0ms)  begin transaction
+  SQL (10.6ms)  INSERT INTO "todos" ("title", "created_by", "created_at", "updated_at") VALUES (?, ?, ?, ?)  [["title", "Mozart"], ["created_by", "1"], ["created_at", "2018-10-18 14:46:38.465542"], ["updated_at", "2018-10-18 14:46:38.465542"]]
+   (167.8ms)  commit transaction
+Completed 201 Created in 226ms (Views: 5.0ms | ActiveRecord: 180.1ms)
+
+
+Started PUT "/todos/1" for 127.0.0.1 at 2018-10-18 16:49:18 +0200
+Processing by TodosController#update as HTML
+  Parameters: {"title"=>"Beethoven", "id"=>"1", "todo"=>{"title"=>"Beethoven"}}
+  Todo Load (1.0ms)  SELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+Unpermitted parameters: id, todo
+   (0.0ms)  begin transaction
+  SQL (14.0ms)  UPDATE "todos" SET "title" = ?, "updated_at" = ? WHERE "todos"."id" = ?  [["title", "Beethoven"], ["updated_at", "2018-10-18 14:49:18.981527"], ["id", 1]]
+   (182.9ms)  commit transaction
+Completed 204 No Content in 252ms (ActiveRecord: 197.9ms)
+
+
+Started DELETE "/todos/1" for 127.0.0.1 at 2018-10-18 16:49:37 +0200
+Processing by TodosController#destroy as */*
+  Parameters: {"id"=>"1"}
+  Todo Load (1.0ms)  SELECT  "todos".* FROM "todos" WHERE "todos"."id" = ? LIMIT ?  [["id", 1], ["LIMIT", 1]]
+   (1.0ms)  begin transaction
+  Item Load (0.0ms)  SELECT "items".* FROM "items" WHERE "items"."todo_id" = ?  [["todo_id", 1]]
+  SQL (10.6ms)  DELETE FROM "todos" WHERE "todos"."id" = ?  [["id", 1]]
+   (179.0ms)  commit transaction
+Completed 204 No Content in 658ms (ActiveRecord: 191.7ms)
+
+
+
+TodoItems API
+-------------
+
+DONE.
+
+Part one
+
+DONE.
